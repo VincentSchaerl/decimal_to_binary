@@ -22,9 +22,9 @@ double charToDouble(const char c)
 
 string decimalToBinary(const string* const data)
 {
-	const int numberOfDecimals = stoi(data[3]);
+	const int numberOfDecimals = stoi(data[2]);
 	double seperatedInputNumber[2];
-	seperate(data[2], seperatedInputNumber);
+	seperate(data[1], seperatedInputNumber);
 	const string prePoint = prePointToBinary(seperatedInputNumber[0]);
 	if (numberOfDecimals == 0)
 	{
@@ -37,14 +37,12 @@ string decimalToBinary(const string* const data)
 	}
 }
 
-// evaluates input and stores the information in string[4] data:
+// evaluates input and stores the information in string[3] data:
 // data[0]: "invalid" | "terminate" | "valid"
-// data[1]: "negative" | "positive"
-// data[2]: number to be converted
-// data[3]: number of decimal numbers
-// A valid input consists of the number to be converted which can be a signed integer or decimal (with point or comma),
-// and an optional unsigned integer specifying the requested number of decimal places, seperated from the number to be converted by one space.
-// By default the number of decimal places is 0 if the number to be converted is an integer, and 10 if it is a decimal.
+// data[1]: number to be converted
+// data[2]: number of decimal places
+// A valid input consists of the number to be converted which can be an unsigned integer or decimal (with point or comma),
+// and an optional unsigned integer specifying the number of decimal places, seperated from the number to be converted by one space.
 void evaluateInput(const string& input, string* data)
 {
 	// [0] "terminate"
@@ -54,7 +52,7 @@ void evaluateInput(const string& input, string* data)
 		return;
 	}
 	// [0] "invalid" (if number of spaces > 1)
-	string number = input; // number to be coverted
+	string number = input; // number to be converted
 	string numberOfDecimals = input; // number of decimal places
 	int spacePosition = -1;
 	int spaces = 0;
@@ -80,20 +78,6 @@ void evaluateInput(const string& input, string* data)
 	{
 		numberOfDecimals = "";
 	}
-	// [1] "negative"
-	if (number[0] == '-')
-	{
-		data[1] = "negative";
-		number.erase(0, 1);
-	}
-	// [1] "positive"
-	else
-	{
-		data[1] = "positive";
-		if (number[0] == '+') {
-			number.erase(0, 1);
-		}
-	}
 	// [0] "invalid"
 	if (!isNumberValid(number))
 	{
@@ -107,23 +91,23 @@ void evaluateInput(const string& input, string* data)
 	}
 	// [0] "valid"
 	data[0] = "valid";
+	// [1]
+	data[1] = number;
 	// [2]
-	data[2] = number;
-	// [3]
 	if (numberOfDecimals == "")
 	{
-		if (isUnsignedInt(data[2]))
+		if (isUnsignedInt(data[1]))
 		{
-			data[3] = "0";
+			data[2] = "0";
 		}
 		else
 		{
-			data[3] = DEFAULT_NUMBER_OF_DECIMAL_PLACES;
+			data[2] = DEFAULT_NUMBER_OF_DECIMAL_PLACES;
 		}
 	}
 	else
 	{
-		data[3] = numberOfDecimals;
+		data[2] = numberOfDecimals;
 	}
 	return;
 }

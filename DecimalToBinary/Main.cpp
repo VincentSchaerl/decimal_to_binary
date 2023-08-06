@@ -10,7 +10,7 @@ int main()
 	while (true)
 	{
 		getline(cin, input);
-		string data[4];
+		string data[3];
 		evaluateInput(input, data);
 		if (data[0] == "invalid")
 		{
@@ -20,10 +20,6 @@ int main()
 		if (data[0] == "terminate")
 		{
 			break;
-		}
-		if (data[1] == "negative")
-		{
-			cout << "-";
 		}
 		cout << decimalToBinary(data) << "\n\n";
 	}
